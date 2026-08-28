@@ -7,6 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
+        cream: {
+          50: '#FFFDF0',
+          100: '#FEFEF5',
+          200: '#FEFCF8',
+        },
         primary: {
           50: '#f0fdfa',
           100: '#ecfeff',

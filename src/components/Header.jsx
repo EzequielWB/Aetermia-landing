@@ -5,7 +5,6 @@ import { useMobileMenu } from '../hooks/useMobileMenu';
 const navLinks = [
   { href: '#servicios', label: 'Servicios' },
   { href: '#nosotros', label: 'Nosotros' },
-  { href: '#proyectos', label: 'Proyectos' },
   { href: '#contacto', label: 'Contacto' },
 ];
 
@@ -18,7 +17,7 @@ export function Header() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/95 shadow-sm border-b border-dark-200' : 'bg-transparent'
+        isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm border-b border-dark-200' : 'bg-transparent'
       }`}
       role="banner"
     >
@@ -34,7 +33,7 @@ export function Header() {
             <a href="/" className="flex items-center space-x-2" aria-label="AETERMIA - Inicio">
               <img 
                 src="/images/logo.png" 
-                alt="" 
+                alt="AETERMIA Logo" 
                 className="h-16 w-auto"
                 width="200"
                 height="64"

@@ -1,11 +1,11 @@
-import { motion } from 'framer-motion'
-import { Target, Heart, Users, Award } from 'lucide-react'
+import { motion } from 'framer-motion';
+import { Target, Heart, Users, Award } from 'lucide-react';
 
 export function About() {
   return (
     <section
       id="nosotros"
-      className="py-20 sm:py-28 lg:py-32 bg-[#FEFEF5]"
+      className="py-20 sm:py-28 lg:py-32 bg-cream-100"
       aria-labelledby="about-title"
     >
       <div className="section-container">
@@ -47,46 +47,50 @@ export function About() {
               ].map((item) => (
                 <motion.div
                   key={item.label}
-                  className="flex items-center gap-3 p-4 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+                  className="flex items-center gap-3 p-4 bg-primary-50/70 rounded-lg hover:bg-primary-100/80 transition-colors"
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
                 >
-                  <item.icon className="w-5 h-5 text-primary-500 flex-shrink-0" aria-hidden="true" />
+                  <item.icon className="w-5 h-5 text-primary-600 flex-shrink-0" aria-hidden="true" />
                   <span className="text-sm font-medium text-dark-700">{item.label}</span>
                 </motion.div>
               ))}
             </div>
           </motion.div>
 
-          {/* Imagen decorativa o placeholder */}
+          {/* Imagen decorativa */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="lg:justify-self-end"
+            className="lg:justify-self-end w-full max-w-md"
           >
             <div className="relative">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-primary-500/10 to-primary-600/5 border border-primary-200">
-                <div className="w-full h-full flex items-center justify-center">
-                  <Users className="w-24 h-24 text-primary-300" aria-hidden="true" />
+              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-primary-100/50 to-primary-200/30 border border-primary-200 shadow-sm">
+                <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center">
+                  <div className="w-16 h-16 rounded-2xl bg-primary-600 text-white flex items-center justify-center mb-4 shadow-md">
+                    <Users className="w-8 h-8" aria-hidden="true" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-dark-900">Enfoque Colaborativo</h3>
+                  <p className="text-sm text-dark-600 mt-1">Transformamos ideas complejas en productos digitales de alto impacto.</p>
                 </div>
               </div>
 
               {/* Círculo decorativo flotante */}
               <motion.div
-                className="absolute -bottom-6 -left-6 w-32 h-32 bg-white rounded-full shadow-xl border border-dark-200 flex items-center justify-center"
-                animate={{ y: [0, -10, 0] }}
+                className="absolute -bottom-6 -left-6 w-28 h-28 bg-white rounded-full shadow-lg border border-dark-200 flex items-center justify-center"
+                animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
               >
-                <Target className="w-10 h-10 text-primary-500" aria-hidden="true" />
+                <Target className="w-9 h-9 text-primary-600" aria-hidden="true" />
               </motion.div>
             </div>
           </motion.div>
         </div>
       </div>
     </section>
-  )
+  );
 }

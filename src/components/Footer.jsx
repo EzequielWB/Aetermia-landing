@@ -1,11 +1,10 @@
-import { Github, Linkedin, Twitter, Dribbble, Mail } from 'lucide-react'
+import { Github, Linkedin, Twitter, Dribbble, Mail } from 'lucide-react';
 
 const footerLinks = {
   empresa: [
     { label: 'Nosotros', href: '#nosotros' },
     { label: 'Servicios', href: '#servicios' },
-    { label: 'Proyectos', href: '#proyectos' },
-    { label: 'Blog', href: '#' },
+    { label: 'Contacto', href: '#contacto' },
   ],
   servicios: [
     { label: 'Desarrollo Web', href: '#servicios' },
@@ -14,18 +13,17 @@ const footerLinks = {
     { label: 'Mantenimiento', href: '#servicios' },
   ],
   legal: [
-    { label: 'Privacidad', href: '#' },
-    { label: 'Términos', href: '#' },
-    { label: 'Cookies', href: '#' },
+    { label: 'Privacidad', href: '#contacto' },
+    { label: 'Términos', href: '#contacto' },
   ],
-}
+};
 
 const socialLinks = [
-  { icon: Github, href: '#', label: 'GitHub' },
-  { icon: Linkedin, href: '#', label: 'LinkedIn' },
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Dribbble, href: '#', label: 'Dribbble' },
-]
+  { icon: Github, href: 'https://github.com', label: 'GitHub' },
+  { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
+  { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
+  { icon: Dribbble, href: 'https://dribbble.com', label: 'Dribbble' },
+];
 
 export function Footer() {
   return (
@@ -33,22 +31,23 @@ export function Footer() {
       <div className="section-container py-16 lg:py-20">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12 mb-12">
           {/* Brand */}
-          <div className="col-span-2 lg:col-span-1">
+          <div className="col-span-2 lg:col-span-2">
             <a href="/" className="flex items-center space-x-2 mb-6" aria-label="AETERMIA - Inicio">
               <img src="/images/logo.png" alt="Logo AETERMIA" className="h-16 w-auto" width="200" height="64" loading="eager" />
               <span className="text-2xl font-bold text-white">AETERMIA</span>
             </a>
-            <p className="text-dark-400 text-sm leading-relaxed mb-6">
-              Agencia de soluciones informáticas especializada en desarrollo web y software a medida.
+            <p className="text-dark-400 text-sm leading-relaxed mb-6 max-w-sm">
+              Agencia de soluciones informáticas especializada en desarrollo web y software a medida. Innovación y excelencia en cada entrega.
             </p>
             <div className="flex gap-4">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-lg bg-dark-800 flex items-center justify-center text-dark-400 hover:bg-primary-900/30 hover:text-primary-400 transition-all duration-200"
                   aria-label={social.label}
-                  rel="noopener noreferrer"
                 >
                   <social.icon className="w-5 h-5" aria-hidden="true" />
                 </a>
@@ -109,9 +108,9 @@ export function Footer() {
           </p>
 
           <div className="flex items-center gap-6 text-sm">
-            <a href="mailto:equipoaetermia@gmail.com" className="flex items-center gap-1.5 text-dark-400 hover:text-white transition-colors">
+            <a href="mailto:contacto@aetermia.site" className="flex items-center gap-1.5 text-dark-400 hover:text-white transition-colors">
               <Mail className="w-4 h-4" aria-hidden="true" />
-              equipoaetermia@gmail.com
+              contacto@aetermia.site
             </a>
             <span className="text-dark-700">|</span>
             <a href="#contacto" className="text-dark-400 hover:text-white transition-colors">
@@ -121,5 +120,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

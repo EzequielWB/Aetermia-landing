@@ -55,7 +55,7 @@ export function Services() {
   return (
     <section 
       id="servicios"
-      className="py-20 sm:py-28 lg:py-32 bg-[#FEFCF8]"
+      className="py-20 sm:py-28 lg:py-32 bg-cream-200"
       aria-labelledby="services-title"
     >
       <div className="section-container">
@@ -121,29 +121,26 @@ export function Services() {
                 {/* Características */}
                 <ul className="space-y-2" aria-label={`Características de ${service.title}`}>
                   {service.features.map((feature) => (
-                    <motion.li
+                    <li
                       key={feature}
                       className="flex items-center gap-2 text-sm text-dark-500 group-hover:text-dark-700 transition-colors"
                     >
                       <span className="w-1.5 h-1.5 bg-primary-500 rounded-full flex-shrink-0" aria-hidden="true" />
                       {feature}
-                    </motion.li>
+                    </li>
                   ))}
                 </ul>
               </div>
 
-              {/* Flecha */}
-              <motion.div
-                className="mt-6 pt-4 border-t border-dark-100 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                whileHover={{ x: 4 }}
-              >
-                <span className="text-sm font-medium text-primary-600">Ver detalles</span>
-                <motion.span
-                  className="text-primary-500"
-                >
+              {/* Enlace al contacto */}
+              <div className="mt-6 pt-4 border-t border-dark-100 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <a href="#contacto" className="text-sm font-medium text-primary-600 hover:text-primary-700">
+                  Consultar servicio
+                </a>
+                <span className="text-primary-500" aria-hidden="true">
                   →
-                </motion.span>
-              </motion.div>
+                </span>
+              </div>
             </motion.article>
           ))}
         </motion.div>

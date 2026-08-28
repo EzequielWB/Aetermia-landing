@@ -1,60 +1,88 @@
-import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
-import { Mail, MapPin, Phone, Send, CheckCircle, Loader2 } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import { Mail, MapPin, Phone, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 
 export function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
-  })
-  const [status, setStatus] = useState('idle') // idle | submitting | success | error
-  const [errors, setErrors] = useState({})
+    botcheck: '',
+  });
+  const [status, setStatus] = useState('idle'); // idle | submitting | success | error
+  const [errorMessage, setErrorMessage] = useState('');
+  const [errors, setErrors] = useState({});
 
   const validate = () => {
-    const newErrors = {}
-    if (!formData.name.trim()) newErrors.name = 'El nombre es obligatorio'
-    if (!formData.email.trim()) newErrors.email = 'El email es obligatorio'
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = 'Email inválido'
-    if (!formData.message.trim()) newErrors.message = 'El mensaje es obligatorio'
-    else if (formData.message.trim().length < 10) newErrors.message = 'Mínimo 10 caracteres'
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    const newErrors = {};
+    if (!formData.name.trim()) newErrors.name = 'El nombre es obligatorio';
+    if (!formData.email.trim()) newErrors.email = 'El email es obligatorio';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = 'Email inválido';
+    if (!formData.message.trim()) newErrors.message = 'El mensaje es obligatorio';
+    else if (formData.message.trim().length < 10) newErrors.message = 'Mínimo 10 caracteres';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (!validate()) return
+    e.preventDefault();
+    if (!validate()) return;
 
-    setStatus('submitting')
+    setStatus('submitting');
+    setErrorMessage('');
+
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '64b16b1f-b3a1-4a7f-909d-2f078126ec98';
+
     try {
-      // TODO: Reemplazar con integración de API real
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      setStatus('success')
-      setFormData({ name: '', email: '', message: '' })
-      setTimeout(() => setStatus('idle'), 5000)
-    } catch {
-      setStatus('error')
-      setTimeout(() => setStatus('idle'), 5000)
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          subject: `Nuevo mensaje de ${formData.name} - AETERMIA Web`,
+          from_name: 'AETERMIA Landing',
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          message: formData.message.trim(),
+          botcheck: formData.botcheck,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '', botcheck: '' });
+      } else {
+        setStatus('error');
+        setErrorMessage(result.message || 'No se pudo enviar el mensaje. Por favor intenta nuevamente.');
+      }
+    } catch (err) {
+      setStatus('error');
+      setErrorMessage('Ocurrió un error de conexión al enviar el mensaje.');
     }
-  }
+  };
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }))
-  }
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
+  };
 
   const contactInfo = [
-    { icon: Mail, label: 'Email', value: 'equipoaetermia@gmail.com', href: 'mailto:equipoaetermia@gmail.com' },
-    { icon: MapPin, label: 'Ubicación', value: 'Buenos Aires, Argentina', href: '#' },
-    { icon: Phone, label: 'Teléfono', value: '+34 900 123 456', href: '#' },
-  ]
+    { icon: Mail, label: 'Email Corporativo', value: 'contacto@aetermia.site', href: 'mailto:contacto@aetermia.site' },
+    { icon: Mail, label: 'Email Alternativo', value: 'equipoaetermia@gmail.com', href: 'mailto:equipoaetermia@gmail.com' },
+    { icon: MapPin, label: 'Ubicación', value: 'Buenos Aires, Argentina', href: null },
+    { icon: Phone, label: 'Teléfono', value: '+54 9 11 0000-0000', href: 'tel:+5491100000000' },
+  ];
 
   return (
     <section
       id="contacto"
-      className="py-20 sm:py-28 lg:py-32 bg-[#FEFEF5]"
+      className="py-20 sm:py-28 lg:py-32 bg-cream-100"
       aria-labelledby="contact-title"
     >
       <div className="section-container">
@@ -86,24 +114,30 @@ export function Contact() {
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.7 }}
           >
-            <div className="space-y-6">
+            <div className="space-y-4">
               {contactInfo.map((item, index) => (
                 <motion.div
-                  key={item.label}
+                  key={item.label + item.value}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.2 + index * 0.1 }}
-                  className="flex items-start gap-4 p-6 bg-primary-50 rounded-xl hover:bg-primary-100 transition-colors"
+                  transition={{ delay: 0.15 + index * 0.08 }}
+                  className="flex items-start gap-4 p-5 bg-primary-50/70 border border-primary-100/80 rounded-xl hover:bg-primary-100/80 transition-colors"
                 >
-                  <div className="w-12 h-12 bg-primary-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <item.icon className="w-6 h-6 text-primary-600" aria-hidden="true" />
+                  <div className="w-11 h-11 bg-white rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm">
+                    <item.icon className="w-5 h-5 text-primary-600" aria-hidden="true" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-dark-900">{item.label}</h3>
-                    <a href={item.href} className="mt-1 text-dark-600 hover:text-primary-600 transition-colors">
-                      {item.value}
-                    </a>
+                    <h3 className="text-sm font-semibold text-dark-900">{item.label}</h3>
+                    {item.href ? (
+                      <a href={item.href} className="mt-0.5 block text-sm text-dark-600 hover:text-primary-600 transition-colors">
+                        {item.value}
+                      </a>
+                    ) : (
+                      <p className="mt-0.5 text-sm text-dark-600">
+                        {item.value}
+                      </p>
+                    )}
                   </div>
                 </motion.div>
               ))}
@@ -117,7 +151,7 @@ export function Contact() {
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <div className="bg-white rounded-2xl p-6 sm:p-8">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-dark-200 shadow-sm">
               <AnimatePresence mode="wait">
                 {status === 'success' ? (
                   <motion.div
@@ -125,13 +159,15 @@ export function Contact() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    className="text-center py-12"
+                    className="text-center py-10"
                   >
                     <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                       <CheckCircle className="w-8 h-8 text-green-600" />
                     </div>
-                    <h3 className="text-xl font-semibold text-dark-900 mb-2">¡Mensaje enviado!</h3>
-                    <p className="text-dark-600">Te contactaremos muy pronto. Gracias por confiar en AETERMIA.</p>
+                    <h3 className="text-xl font-semibold text-dark-900 mb-2">¡Mensaje enviado con éxito!</h3>
+                    <p className="text-dark-600 max-w-md mx-auto">
+                      Hemos recibido tu consulta. Nos pondremos en contacto contigo a la brevedad.
+                    </p>
                     <button
                       onClick={() => setStatus('idle')}
                       className="mt-6 btn-secondary"
@@ -149,9 +185,29 @@ export function Contact() {
                     className="space-y-5"
                     noValidate
                   >
+                    {/* Campo Honeypot antispam invisible */}
+                    <input
+                      type="checkbox"
+                      name="botcheck"
+                      className="hidden"
+                      style={{ display: 'none' }}
+                      checked={formData.botcheck}
+                      onChange={(e) => setFormData(prev => ({ ...prev, botcheck: e.target.checked ? 'true' : '' }))}
+                    />
+
+                    {status === 'error' && (
+                      <div className="p-4 rounded-lg bg-red-50 border border-red-200 text-red-700 flex items-start gap-3 text-sm">
+                        <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5 text-red-500" />
+                        <div>
+                          <p className="font-medium">Hubo un problema al enviar</p>
+                          <p className="text-xs mt-0.5">{errorMessage || 'Por favor intenta de nuevo o escríbenos directamente a contacto@aetermia.site'}</p>
+                        </div>
+                      </div>
+                    )}
+
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium text-dark-700 mb-1.5">
-                        Nombre completo <span className="text-primary-500">*</span>
+                        Nombre completo <span className="text-primary-600">*</span>
                       </label>
                       <input
                         type="text"
@@ -174,7 +230,7 @@ export function Contact() {
 
                     <div>
                       <label htmlFor="email" className="block text-sm font-medium text-dark-700 mb-1.5">
-                        Email <span className="text-primary-500">*</span>
+                        Email <span className="text-primary-600">*</span>
                       </label>
                       <input
                         type="email"
@@ -197,7 +253,7 @@ export function Contact() {
 
                     <div>
                       <label htmlFor="message" className="block text-sm font-medium text-dark-700 mb-1.5">
-                        Mensaje <span className="text-primary-500">*</span>
+                        Mensaje <span className="text-primary-600">*</span>
                       </label>
                       <textarea
                         id="message"
@@ -226,7 +282,7 @@ export function Contact() {
                       {status === 'submitting' ? (
                         <>
                           <Loader2 className="w-5 h-5 animate-spin mr-2" aria-hidden="true" />
-                          Enviando...
+                          Enviando mensaje...
                         </>
                       ) : (
                         <>
@@ -237,7 +293,7 @@ export function Contact() {
                     </button>
 
                     <p className="text-xs text-dark-500 text-center sm:text-left">
-                      Al enviar, aceptas nuestra <a href="#" className="text-primary-600 hover:underline">Política de Privacidad</a>.
+                      Al enviar, aceptas ser contactado por el equipo de AETERMIA.
                     </p>
                   </motion.form>
                 )}
@@ -247,5 +303,5 @@ export function Contact() {
         </div>
       </div>
     </section>
-  )
+  );
 }

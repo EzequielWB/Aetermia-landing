@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply bg-[#FEFEF5] text-dark-900 antialiased;
+    @apply bg-cream-100 text-dark-900 antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
