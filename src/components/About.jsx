@@ -79,14 +79,7 @@ export function About() {
                 </div>
               </div>
 
-              {/* Círculo decorativo flotante */}
-              <motion.div
-                className="absolute -bottom-6 -left-6 w-28 h-28 bg-white rounded-full shadow-lg border border-dark-200 flex items-center justify-center"
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                <Target className="w-9 h-9 text-primary-600" aria-hidden="true" />
-              </motion.div>
+              
             </div>
           </motion.div>
         </div>
