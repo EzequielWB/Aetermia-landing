@@ -32,11 +32,11 @@ export function Header() {
           >
             <a href="/" className="flex items-center space-x-2" aria-label="AETERMIA - Inicio">
               <img 
-                src="/images/logo.png" 
+                src="/images/LOGO%20SIN%20FONDO%20NI%20NOMBRE.png" 
                 alt="AETERMIA Logo" 
                 className="h-16 w-auto"
-                width="200"
-                height="64"
+                width="225"
+                height="180"
                 loading="eager"
               />
               <span className="hidden sm:block text-2xl font-bold text-dark-900">AETERMIA</span>

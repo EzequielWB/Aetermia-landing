@@ -32,7 +32,7 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2 lg:col-span-2">
             <a href="/" className="flex items-center space-x-2 mb-6" aria-label="AETERMIA - Inicio">
-              <img src="/images/logo-blanco.png" alt="Logo AETERMIA" className="h-16 w-auto" width="200" height="64" loading="eager" />
+              <img src="/images/LOGO%20SIN%20FONDO%20NI%20NOMBRE%20BLANCO.png" alt="Logo AETERMIA" className="h-16 w-auto" width="225" height="180" loading="eager" />
               <span className="text-2xl font-bold text-white">AETERMIA</span>
             </a>
             <p className="text-dark-400 text-sm leading-relaxed mb-6 max-w-sm">
